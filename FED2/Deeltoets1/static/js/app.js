@@ -2,9 +2,9 @@
 var APP = APP || {};
 
 
-(function () {
-	'use strict'; //Dwingt een strict versie van JS af. Hierbij wordt bijv. gelet op het juist afsluiten van stukken code
+(function () { //self invoking function
 	// Data voor pagina schedule
+	
 	APP.schedule = {
 		title:'Pool A - Schedule',
 		description:'Hier vindt u het schema van de wedstrijden',
@@ -20,6 +20,7 @@ var APP = APP || {};
     { date: "Monday, 1:00pm", team1: "Chasing", team1Score: "15", team2: "Boomsquad", team2Score: "14"},
     { date: "Monday, 1:00pm", team1: "Burning Snow", team1Score: "15", team2: "Amsterdam Money Gang", team2Score: "11"}
 ]
+
 };
 // Data voor pagina game
 	APP.game = {
@@ -65,28 +66,16 @@ var APP = APP || {};
 	]
 	};
 	
-	// Maakt en object 'controller' aan binnen de namespace die de functie 'router' aan of uit zet
-	APP.controller = {
-		init: function () {
-			// Initialize object router met Routie lib
-			APP.router.init();
-		},
-		exit: function () { //zet na initialisatie de APP.router weer uit
-
-		}
-	};
-
 	// Router object met Routie lib
 	APP.router = {
 		init: function () {
-			routie({ //Route zorgt ervoor dat je verschillende pagina's kan serveren terwijl je op dezelfde HTML pagina blijft door een # te plaatsen
+			routie({ //Routie zoekt in de HTML naar de hash in URL en wat er achter staat. En bijv. wanneer index.html#/schedule voert ie uit APP.page.schedule functie
 				'/schedule': function() {
 				APP.page.schedule();
 				},
 				'/game': function() {
 				APP.page.game();
 				},
-
 				'/ranking': function() {
 				APP.page.ranking();
 				},
@@ -101,7 +90,7 @@ var APP = APP || {};
                 sections = qwery('section'), //selecteert 'sections'
                 section = qwery('[data-route=' + route + ']')[0]; //selecteert 'data-routes'
 
-            // Show active section, hide all other
+            // Show active section, hide all other 
             if (section) {
 				for (var i=0; i < sections.length; i++){
 					sections[i].classList.remove('active');
@@ -116,10 +105,13 @@ var APP = APP || {};
 		}
 	};
 
-	// Pages
-    APP.page = {
+/*Transparancy is een client-side template engine wat 'data-bind' met DOM. 
+QWERY selecteert het DOM element via CSS en vervolgens koppelt transparency de data aan het desbetreffende DOM element
+	    */
+
+            APP.page = {
         schedule: function() {
-            Transparency.render(qwery('[data-route=schedule]')[0], APP.schedule); //zorgt ervoor dat JSON data arrays worden omgezet in HTML door data bind
+            Transparency.render(qwery('[data-route=schedule]')[0], APP.schedule); 
             APP.router.change();
         },
         game: function() {
@@ -135,7 +127,7 @@ var APP = APP || {};
 	// DOM ready-functie: zorgt dat alle HTML ontvangen en geparsed is door browser voordat deze gerenderd wordt
 	domready(function () {
 		// Kickstart application
-		APP.controller.init();
+		APP.router.init();
 	});
 	
 })();
