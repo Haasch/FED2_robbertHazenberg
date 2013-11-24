@@ -8,6 +8,8 @@ var APP = APP || {};
 var loader = document.getElementById('circleG');
 
 // Nieuwe instantie van object 'swiper' wordt aangemaakt genaamd 'swipe'
+
+/* [REVIEW] Probeer deze variabele ook in een object te zetten. */
 var swipe = new Swiper ('.swiper-container',{
 	mode:'horizontal',
 	loop: false
